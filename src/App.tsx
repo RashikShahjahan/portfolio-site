@@ -37,7 +37,7 @@ function App() {
                 onClick={() => setShowHero(false)}
                 className="btn btn-lg border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all duration-300 rounded-none px-8"
               >
-                Rashik who?
+                Tell me more.
               </button>
             </div>
           </div>

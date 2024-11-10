@@ -66,10 +66,10 @@ function App() {
         <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Featured Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {/* Project 1 */}
-          <div className="bg-white border-2 border-black rounded-none p-10 hover:bg-black hover:text-white transition-all duration-300 group">
-            <h3 className="font-bold text-xl mb-4">Text to Code to Art</h3>
-            <p className="mb-6 group-hover:text-white/90">An AI-powered creative tool that transforms your text prompts into code that controls a digital pen, letting you generate custom drawings and find similar artwork</p>
-            <div className="mb-4">
+          <div className="bg-white border-2 border-black rounded-none p-10 hover:bg-black hover:text-white transition-all duration-300 group flex flex-col h-full">
+            <h3 className="font-bold text-xl mb-4 h-[2rem]">Text to Code to Art</h3>
+            <p className="mb-6 group-hover:text-white/90 flex-grow min-h-[6rem]">An AI-powered creative tool that transforms your text prompts into code that controls a digital pen, letting you generate custom drawings and find similar artwork</p>
+            <div className="mb-4 min-h-[4rem]">
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-sm border border-current rounded-full">React</span>
                 <span className="px-2 py-1 text-sm border border-current rounded-full">TypeScript</span>
@@ -78,7 +78,7 @@ function App() {
                 <span className="px-2 py-1 text-sm border border-current rounded-full">PGVector</span>
               </div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-auto">
               <a href="/projects/1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center font-medium">
                 View Details <span className="ml-2">→</span>
               </a>
@@ -90,16 +90,16 @@ function App() {
           </div>
 
           {/* Project 2 */}
-          <div className="bg-white border-2 border-black rounded-none p-10 hover:bg-black hover:text-white transition-all duration-300 group">
-            <h3 className="font-bold text-xl mb-4">Larn</h3>
-            <p className="mb-6 group-hover:text-white/90">Larn is a command-line tool designed to help software engineers improve their coding skills through AI-driven feedback. It analyzes code changes, identifies areas of improvement, and generates personalized programming exercises.</p>
-            <div className="mb-4">
+          <div className="bg-white border-2 border-black rounded-none p-10 hover:bg-black hover:text-white transition-all duration-300 group flex flex-col h-full">
+            <h3 className="font-bold text-xl mb-4 h-[2rem]">Larn</h3>
+            <p className="mb-6 group-hover:text-white/90 flex-grow min-h-[6rem]">Larn is your AI coding coach. It analyzes code changes, identifies areas of improvement, and generates personalized programming exercises.</p>
+            <div className="mb-4 min-h-[4rem]">
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-sm border border-current rounded-full">Rust</span>
                 <span className="px-2 py-1 text-sm border border-current rounded-full">Redis</span>
               </div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-auto">
               <a href="/projects/2" target="_blank" rel="noopener noreferrer" className="inline-flex items-center font-medium">
                 View Details <span className="ml-2">→</span>
               </a>
@@ -111,16 +111,16 @@ function App() {
           </div>
 
           {/* Project 3 */}
-          <div className="bg-white border-2 border-black rounded-none p-10 hover:bg-black hover:text-white transition-all duration-300 group">
-            <h3 className="font-bold text-xl mb-4">Mistral Instruct Bangla</h3>
-            <p className="mb-6 group-hover:text-white/90">A QLora fine-tuned variant of the Mistral Instruct model for Bengali language modeling. I trained it on a small dataset with limited iterations. The model can generate simple sentences and can in theory be trained for longer on more data to generate more complex text.</p>
-            <div className="mb-4">
+          <div className="bg-white border-2 border-black rounded-none p-10 hover:bg-black hover:text-white transition-all duration-300 group flex flex-col h-full">
+            <h3 className="font-bold text-xl mb-4 h-[2rem]">Mistral Instruct Bangla</h3>
+            <p className="mb-6 group-hover:text-white/90 flex-grow min-h-[6rem]">A QLora fine-tuned variant of the Mistral Instruct model for Bengali language modeling. I trained it on a small dataset with limited iterations, enabling it to generate simple sentences in Bengali.</p>
+            <div className="mb-4 min-h-[4rem]">
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-sm border border-current rounded-full">Python</span>
                 <span className="px-2 py-1 text-sm border border-current rounded-full">Pytorch</span>
               </div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-auto">
               <a href="/projects/3" target="_blank" rel="noopener noreferrer" className="inline-flex items-center font-medium">
                 View Details <span className="ml-2">→</span>
               </a>

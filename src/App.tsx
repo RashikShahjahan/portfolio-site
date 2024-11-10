@@ -113,7 +113,7 @@ function App() {
           {/* Project 3 */}
           <div className="bg-white border-2 border-black rounded-none p-10 hover:bg-black hover:text-white transition-all duration-300 group">
             <h3 className="font-bold text-xl mb-4">Mistral Instruct Bangla</h3>
-            <p className="mb-6 group-hover:text-white/90">A QLora fine-tuned variant of the Mistral Instruct model for Bengali language modeling</p>
+            <p className="mb-6 group-hover:text-white/90">A QLora fine-tuned variant of the Mistral Instruct model for Bengali language modeling. I trained it on a small dataset with limited iterations. The model can generate simple sentences and can in theory be trained for longer on more data to generate more complex text.</p>
             <div className="mb-4">
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-sm border border-current rounded-full">Python</span>

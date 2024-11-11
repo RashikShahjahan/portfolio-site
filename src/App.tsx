@@ -55,7 +55,7 @@ function App() {
               onClick={() => window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank')}
               className="btn btn-lg border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all duration-300 rounded-none px-8 mt-6"
             >
-              Sounds interesting? Let's talk
+              Schedule a call
             </button>
           </div>
         </div>

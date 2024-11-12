@@ -7,7 +7,7 @@ function App() {
     <div className="min-h-screen bg-white">
       <div className="navbar px-4 lg:px-6 py-2 border-b-2 border-black">
         <div className="navbar-start">
-          <a href="/" target="_blank" rel="noopener noreferrer" className="text-xl font-bold">R.</a>
+          <a href="/" target="_blank" rel="noopener noreferrer" className="text-xl font-bold">Rashik Shahjahan</a>
         </div>
         <div className="navbar-end space-x-2">
           <a href="https://blog.rashik.sh" target="_blank" rel="noopener noreferrer" className="btn btn-ghost text-black hover:bg-black hover:text-white">Blog</a>

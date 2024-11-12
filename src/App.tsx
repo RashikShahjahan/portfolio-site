@@ -47,9 +47,9 @@ function App() {
         <div className="container mx-auto px-4 lg:px-8 py-12">
           <div className="prose prose-lg max-w-2xl mx-auto border-2 border-black p-6">
             <p className="text-black/80">
-              Rashik has two years of experience in the healthtech industry in Toronto, where he built <b>distributed machine learning systems</b> and <b>observability infrastructure</b>. He is currently based in <b>New York City</b>, working on personal projects and contracting with local startups.
+              I have two years of experience in the healthtech industry in Toronto, where I built <b>distributed machine learning systems</b> and <b>observability infrastructure</b>. I am currently based in <b>New York City</b>, working on personal projects and contracting with local startups.
               <br /><br />
-              A graduate of <b>McMaster University</b> with a major in engineering physics, Rashik discovered the transformative potential of software on emerging technologies, leading him to pursue a career in software engineering.
+              As a graduate of <b>McMaster University</b> with a major in engineering physics, I discovered the transformative potential of software on emerging technologies, leading me to pursue a career in software engineering.
             </p>
             <button 
               onClick={() => window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank')}

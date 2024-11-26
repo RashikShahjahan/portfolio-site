@@ -11,14 +11,6 @@ function App() {
         </div>
         <div className="navbar-end space-x-2">
           <a href="https://blog.rashik.sh" target="_blank" rel="noopener noreferrer" className="btn btn-ghost text-black hover:bg-black hover:text-white">Blog</a>
-          <a 
-            href="/resumeRashikShahjahan.pdf" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="btn btn-ghost text-black hover:bg-black hover:text-white"
-          >
-            Resume
-          </a>
         </div>
       </div>
 
@@ -45,18 +37,34 @@ function App() {
       ) : (
         // About Section
         <div className="container mx-auto px-4 lg:px-8 py-12">
-          <div className="prose prose-lg max-w-2xl mx-auto border-2 border-black p-6">
+          <div className="prose prose-lg max-w-2xl mx-auto border-2 border-black p-6 relative">
+            <button 
+              onClick={() => setShowHero(true)}
+              className="absolute top-1 right-1 btn btn-xs border-1 border-black bg-white text-black hover:bg-black hover:text-white transition-all duration-300 rounded-none  text-xs"
+            >
+              Back
+            </button>
             <p className="text-black/80">
               I have two years of experience in the healthtech industry in Toronto, where I built <b>distributed machine learning systems</b> and <b>observability infrastructure</b>. I am currently based in <b>New York City</b>, working on personal projects and contracting with local startups.
               <br /><br />
               As a graduate of <b>McMaster University</b> with a major in engineering physics, I discovered the transformative potential of software on emerging technologies, leading me to pursue a career in software engineering.
             </p>
-            <button 
-              onClick={() => window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank')}
-              className="btn btn-lg border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all duration-300 rounded-none px-8 mt-6"
-            >
-              Schedule a call
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 mt-6">
+              <button 
+                onClick={() => window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank')}
+                className="btn btn-lg border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all duration-300 rounded-none px-8 flex-1"
+              >
+                Schedule a call
+              </button>
+              <a 
+                href="/resumeRashikShahjahan.pdf" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn btn-lg border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all duration-300 rounded-none px-8 flex-1"
+              >
+                Resume
+              </a>
+            </div>
           </div>
         </div>
       )}

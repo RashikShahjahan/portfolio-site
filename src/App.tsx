@@ -1,10 +1,16 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 function App() {
   const [showHero, setShowHero] = useState(true);
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
+      <Helmet>
+        <title>Rashik's Portfolio - Software Engineer</title>
+        <meta name="description" content="Rashik Shahjahan's portfolio showcasing projects in software engineering, AI, and more. Based in New York City, Rashik specializes in distributed machine learning systems and observability infrastructure." />
+        <meta name="keywords" content="Rashik Shahjahan, Software Engineer, AI, Machine Learning, Portfolio, Projects, New York City" />
+      </Helmet>
       <div className="navbar px-4 lg:px-6 py-2 border-b-2 border-black">
         <div className="navbar-start">
           <a href="/" target="_blank" rel="noopener noreferrer" className="text-xl font-bold">Rashik Shahjahan</a>

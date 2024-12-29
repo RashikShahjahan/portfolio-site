@@ -118,6 +118,7 @@ function App() {
               <div className="mb-4 min-h-[4rem]">
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 text-sm border border-current rounded-full">Pytorch</span>
+                  <span className="px-2 py-1 text-sm border border-current rounded-full">Python</span>
                 </div>
               </div>
               <div className="flex justify-between items-center mt-auto">

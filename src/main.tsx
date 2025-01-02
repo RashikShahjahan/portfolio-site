@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { PostHogProvider} from 'posthog-js/react'
 
 const options = {
-  api_host: import.meta.env.VITE_POSTHOG_API_KEY,
+  api_host: import.meta.env.VITE_POSTHOG_API_HOST,
 }
 
 

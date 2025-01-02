@@ -4,6 +4,6 @@
         stroke="black" stroke-width="2" fill="white"/>
   
   <!-- Abstract geometric shape - a stylized infinity/code symbol -->
-  <path d="M10 16 L14 12 L18 16 L22 12 M10 16 L14 20 L18 16 L22 20"
+  <path d="M8 16 L12 12 L16 16 L20 12 M8 16 L12 20 L16 16 L20 20"
         stroke="black" stroke-width="2" fill="none"/>
 </svg>

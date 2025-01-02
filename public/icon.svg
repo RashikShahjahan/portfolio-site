@@ -3,7 +3,7 @@
   <rect x="2" y="2" width="28" height="28" rx="4" 
         stroke="black" stroke-width="2" fill="white"/>
   
-  <!-- Stylized 'R' with shorter head -->
-  <path d="M10 8h8c2.2 0 4 1.8 4 3s-1.8 3-4 3h-3l5 10h-4l-4.5-10H14v10h-4V8z"
-        fill="black"/>
+  <!-- Abstract geometric shape - a stylized infinity/code symbol -->
+  <path d="M10 16 L14 12 L18 16 L22 12 M10 16 L14 20 L18 16 L22 20"
+        stroke="black" stroke-width="2" fill="none"/>
 </svg>

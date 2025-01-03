@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Helmet>
-        <title>Rashik Shahjahan | Software Engineer & ML Expert</title>
+        <title>Rashik Shahjahan | Software Engineer | Full Stack Developer | AI Engineer | Backend Developer | Distributed Systems</title>
         <meta name="description" content="Software engineer specializing in distributed machine learning systems and observability infrastructure. Based in New York City with experience in healthtech and AI." />
         <meta name="keywords" content="Rashik Shahjahan, Software Engineer, Machine Learning Engineer, AI Engineer, Distributed Systems, New York City, Toronto, Healthtech" />
         

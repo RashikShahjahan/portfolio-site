@@ -147,8 +147,8 @@ function App() {
               <p className="mb-6 group-hover:text-white/90 flex-grow min-h-[6rem]">A QLora fine-tuned variant of the Mistral Instruct model for Bengali language modeling. I trained it on a small dataset with limited iterations, enabling it to generate simple sentences in Bengali.</p>
               <div className="mb-4 min-h-[4rem]">
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 text-sm border border-current rounded-full">Python</span>
                   <span className="px-2 py-1 text-sm border border-current rounded-full">Pytorch</span>
+                  <span className="px-2 py-1 text-sm border border-current rounded-full">Python</span>
                 </div>
               </div>
               <div className="flex justify-between items-center mt-auto">

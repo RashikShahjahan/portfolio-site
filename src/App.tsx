@@ -198,7 +198,7 @@ function App() {
           "name": "Rashik Shahjahan",
           "jobTitle": "Software Engineer",
           "url": "https://rashik.sh",
-          "description": "Software engineer specializing in distributed machine learning systems and observability infrastructure",
+          "description": "Software engineer looking for intermediate level roles in USA or Canada",
           "alumniOf": {
             "@type": "CollegeOrUniversity",
             "name": "McMaster University"

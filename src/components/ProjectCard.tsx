@@ -53,7 +53,8 @@ const ProjectCard = ({ title, description, technologies, links }: ProjectCardPro
           {links.blog && (
             <a href={links.blog} className="group-hover:text-white/90 inline-flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-5 17l-7-7 1.41-1.41 5.59 5.58 5.59-5.58 1.41 1.41-7 7z"/>
+                <path d="M21 3h-18c-1.104 0-2 .896-2 2v14c0 1.104.896 2 2 2h18c1.104 0 2-.896 2-2v-14c0-1.104-.896-2-2-2zm-18 2h4v14h-4v-14zm16 14h-10v-14h10v14z"/>
+                <path d="M15 6h-2v2h2v-2zm-2 4h2v2h-2v-2zm2 4h-2v2h2v-2z"/>
               </svg>
               Blog
             </a>

@@ -34,7 +34,7 @@ const HeroAbout = () => {
               Back
             </button>
             <p className="text-black/80">
-              I have two years of experience in the healthtech industry in Toronto, where I built <b>distributed machine learning systems</b> and <b>observability infrastructure</b>. I am currently based in <b>New York City</b>, working on personal projects and contracting with local startups.
+              I have two years of experience in the healthtech industry in Toronto, where I built <b>distributed machine learning systems</b> and <b>observability infrastructure</b>. I am currently working on personal projects and contracting with local startups.
               <br /><br />
               As a graduate of <b>McMaster University</b> with a major in engineering physics, I discovered the transformative potential of software on emerging technologies, leading me to pursue a career in software engineering.
             </p>

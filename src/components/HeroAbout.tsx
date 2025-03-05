@@ -44,7 +44,7 @@ const HeroAbout = () => {
                 Schedule a call
               </button>
               <a 
-                href="/resumeRashikShahjahan.pdf" 
+                href="/resumeRashikSh.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="btn btn-lg border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-all duration-300 rounded-none px-8 flex-1"

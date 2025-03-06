@@ -3,7 +3,34 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* Set terminal-like styling for all default elements */
+  h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, li {
+    @apply font-mono text-nous-yellow;
+    text-shadow: 0 0 2px rgba(212, 160, 23, 0.5);
+  }
+}
+
 @layer components {
+  /* Text color defaults */
+  .nous-text {
+    @apply text-nous-yellow;
+  }
+  
+  /* Alternating backgrounds */
+  .nous-bg-light {
+    @apply bg-[#E8E6D9]; /* Beige */
+  }
+  
+  .nous-bg-dark {
+    @apply bg-[#0A0A0A] text-nous-yellow; /* Rich black with yellow text */
+  }
+  
+  /* Force yellow text on dark backgrounds */
+  .bg-nous-blue *, .bg-[#0A0A0A] *, .bg-[#1A1A1A] *, .nous-bg-dark * {
+    @apply text-nous-yellow !important;
+  }
+  
   /* Duotone effect for images */
   .duotone-nous {
     filter: brightness(0.8) contrast(1.2) grayscale(1);
@@ -13,20 +40,26 @@
   
   /* Terminal-like text for headings */
   .terminal-heading {
-    @apply font-mono font-bold tracking-wider;
+    @apply font-mono font-bold tracking-wider text-nous-yellow;
     text-shadow: 0 0 5px rgba(212, 160, 23, 0.7);
+  }
+
+  /* Terminal-like text for content */
+  .terminal-content {
+    @apply font-mono text-nous-yellow;
+    text-shadow: 0 0 2px rgba(212, 160, 23, 0.5);
   }
   
   /* Cyberpunk-style card */
   .nous-card {
-    @apply bg-white border-2 border-[#D4A017] rounded-md shadow-lg;
+    @apply bg-base-100 border-2 border-[#D4A017] rounded-md shadow-lg text-nous-yellow;
     box-shadow: 0 0 15px rgba(212, 160, 23, 0.4);
   }
   
-  /* Blue accent card */
-  .nous-card-blue {
-    @apply bg-white border-2 border-[#1A365D] rounded-md shadow-lg;
-    box-shadow: 0 0 15px rgba(26, 54, 93, 0.4);
+  /* Black accent card */
+  .nous-card-dark {
+    @apply bg-[#0A0A0A] border-2 border-[#D4A017] rounded-md shadow-lg text-nous-yellow;
+    box-shadow: 0 0 15px rgba(212, 160, 23, 0.4);
   }
   
   /* Glitch effect for text (minimal) */
@@ -47,14 +80,14 @@
   
   .text-glitch::before {
     left: 2px;
-    text-shadow: -1px 0 #1A365D;
+    text-shadow: -1px 0 #0A0A0A;
     clip: rect(44px, 450px, 56px, 0);
     animation: glitch-anim 5s infinite linear alternate-reverse;
   }
   
   .text-glitch::after {
     left: -2px;
-    text-shadow: -1px 0 #FFFFFF;
+    text-shadow: -1px 0 #E8E6D9;
     clip: rect(44px, 450px, 56px, 0);
     animation: glitch-anim 5s infinite linear alternate-reverse;
     animation-delay: 0.3s;

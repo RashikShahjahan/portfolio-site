@@ -17,7 +17,7 @@ const HeroAbout = () => {
               </p>
               <button 
                 onClick={() => setShowHero(false)}
-                className="btn btn-lg border-2 border-[#D4A017] bg-base-100 text-nous-yellow hover:bg-nous-blue hover:text-white transition-all duration-300 rounded-none px-8"
+                className="btn btn-lg border-2 border-[#D4A017] bg-base-100 text-nous-yellow hover:bg-nous-blue hover:text-nous-yellow transition-all duration-300 rounded-none px-8"
               >
                 Tell me more.
               </button>
@@ -26,20 +26,20 @@ const HeroAbout = () => {
         </section>
       ) : (
         <section className="container mx-auto px-4 lg:px-8 py-10" aria-label="About Me">
-          <div className="prose prose-lg max-w-2xl mx-auto nous-card p-6 relative">
+          <div className="prose prose-lg max-w-2xl mx-auto nous-card p-6 relative bg-beige">
             <button 
               onClick={() => setShowHero(true)}
-              className="absolute top-1 right-1 btn btn-xs border-1 border-[#D4A017] bg-base-100 text-nous-yellow hover:bg-nous-blue hover:text-white transition-all duration-300 rounded-none text-xs"
+              className="absolute top-1 right-1 btn btn-xs border-1 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none text-xs"
             >
               Back
             </button>
-            <p className="text-nous-yellow/90">
+            <p className="text-nous-yellow/90" >
               I am experienced in full-stack development, distributed systems and AI. I co-invented a <a href="https://patents.google.com/patent/US20230143418A1/en?oq=US-20230143418-A1" target="_blank" rel="noopener noreferrer" className="text-nous-yellow hover:text-nous-blue">patent pending system</a> to process large medical corpora and led a team to build and deploy a metrics monitoring system deployed in hundreds of machines. More recently, I created a <a href="https://artsy.rashik.sh/" target="_blank" rel="noopener noreferrer" className="text-nous-yellow hover:text-nous-blue">website</a> to demonstrate that <a href="https://blog.rashik.sh/tech/can-ai-learn-to-draw" target="_blank" rel="noopener noreferrer" className="text-nous-yellow hover:text-nous-blue">LLMs can draw</a> and a <a href="https://github.com/RashikShahjahan/sonic-ml" target="_blank" rel="noopener noreferrer" className="text-nous-yellow hover:text-nous-blue">tool</a> to simplify language model training. I am always working on projects and <a href="https://blog.rashik.sh/tech" target="_blank" rel="noopener noreferrer" className="text-nous-yellow hover:text-nous-blue">writing</a> about them.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button 
                 onClick={() => window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank')}
-                className="btn btn-lg border-2 border-[#D4A017] bg-base-100 text-nous-yellow hover:bg-nous-blue hover:text-white transition-all duration-300 rounded-none px-8 flex-1"
+                className="btn btn-lg border-2 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none px-8 flex-1"
               >
                 Schedule a call
               </button>
@@ -47,7 +47,7 @@ const HeroAbout = () => {
                 href="/resumeRashikSh.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="btn btn-lg border-2 border-[#D4A017] bg-base-100 text-nous-yellow hover:bg-nous-blue hover:text-white transition-all duration-300 rounded-none px-8 flex-1"
+                className="btn btn-lg border-2 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none px-8 flex-1"
               >
                 Resume
               </a>

@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global styles to ensure yellow text */
+:root {
+  color: #D4A017;
+}
+
+/* Ensure all text on dark backgrounds is yellow */
+.bg-[#0A0A0A], .bg-[#1A1A1A], [class*="bg-nous-blue"], [class*="bg-black"], 
+.dark, .bg-dark, .bg-neutral, .bg-neutral-focus, .bg-base-300,
+[class*="dark"], [class*="black"] {
+  color: #D4A017 !important;
+}
+
+/* Target specific elements inside dark backgrounds to ensure yellow text */
+.bg-[#0A0A0A] *, .bg-[#1A1A1A] *, [class*="bg-nous-blue"] *, [class*="bg-black"] *, 
+.dark *, .bg-dark *, .bg-neutral *, .bg-neutral-focus *, .bg-base-300 *,
+[class*="dark"] *, [class*="black"] * {
+  color: #D4A017 !important;
+}

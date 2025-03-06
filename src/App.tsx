@@ -6,7 +6,7 @@ import Projects from './components/Projects';
 
 function App() {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-base-100 flex flex-col" data-theme="nous">
       <Helmet>
         <title>Rashik Shahjahan | Software Engineer | Full Stack Developer | AI Engineer | Backend Developer | Distributed Systems</title>
         <meta name="description" content="Software engineer specializing in distributed machine learning systems and observability infrastructure. Based in New York City with experience in healthtech and AI." />

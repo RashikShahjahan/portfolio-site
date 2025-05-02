@@ -107,7 +107,7 @@ export const trackClick = (element: HTMLElement | string) => {
  * @param url - URL of the external link
  * @param linkText - Text content of the link
  */
-export const trackExternalLinkClick = (url: string, linkText: string) => {
+export const trackExternalLinkClick = (url: string) => {
   // Create descriptive event name based on URL
   const urlObj = new URL(url);
   const domain = urlObj.hostname.replace('www.', '');

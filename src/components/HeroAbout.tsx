@@ -1,5 +1,24 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAnalytics } from 'rashik-analytics-provider';
+
+/**
+ * Interface matching the Go backend's EventBase struct
+ */
+interface EventBase {
+  service: string;
+  event: string;
+  path: string;
+  referrer: string;
+  user_browser: string;
+  user_device: string;
+}
+
+/**
+ * Interface matching the Go backend's EventRequest struct
+ */
+interface EventRequest extends EventBase {
+  timestamp: string;
+}
 
 /**
  * Determine user device type
@@ -15,42 +34,52 @@ const getUserDeviceType = (): string => {
   return 'desktop';
 };
 
-const HeroAbout = () => {
-  const [showHero, setShowHero] = useState(true);
-  const analytics = useAnalytics();
-
-  const createEventObject = (buttonId: string, section: string) => ({
+/**
+ * Create an event request with descriptive name
+ */
+const createEventRequest = (eventType: string): EventRequest => {
+  return {
     service: 'portfolio',
-    event: 'button_click',
+    event: eventType,
     path: window.location.pathname,
     referrer: document.referrer || '',
     user_browser: navigator.userAgent,
     user_device: getUserDeviceType(),
-    button_id: buttonId,
-    section: section
-  });
+    timestamp: new Date().toISOString()
+  };
+};
+
+const HeroAbout = () => {
+  const [showHero, setShowHero] = useState(true);
+  const analytics = useAnalytics();
+  
+  // References to the buttons
+  const tellMeMoreBtnRef = useRef<HTMLButtonElement>(null);
+  const backBtnRef = useRef<HTMLButtonElement>(null);
+  const scheduleCallBtnRef = useRef<HTMLButtonElement>(null);
+  const resumeBtnRef = useRef<HTMLAnchorElement>(null);
 
   const handleTellMeMoreClick = () => {
-    const eventData = createEventObject('tell_me_more', 'hero');
-    (analytics.trackEvent as any)('button_click', eventData);
+    const eventData = createEventRequest('hero_section_tell_me_more_click');
+    (analytics.trackEvent as any)('hero_section_tell_me_more_click', eventData);
     setShowHero(false);
   };
 
   const handleBackClick = () => {
-    const eventData = createEventObject('back', 'about');
-    (analytics.trackEvent as any)('button_click', eventData);
+    const eventData = createEventRequest('about_section_back_button_click');
+    (analytics.trackEvent as any)('about_section_back_button_click', eventData);
     setShowHero(true);
   };
 
   const handleScheduleCallClick = () => {
-    const eventData = createEventObject('schedule_call', 'about');
-    (analytics.trackEvent as any)('button_click', eventData);
+    const eventData = createEventRequest('about_section_schedule_call_click');
+    (analytics.trackEvent as any)('about_section_schedule_call_click', eventData);
     window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank');
   };
 
   const handleResumeClick = () => {
-    const eventData = createEventObject('resume', 'about');
-    (analytics.trackEvent as any)('button_click', eventData);
+    const eventData = createEventRequest('about_section_resume_download_click');
+    (analytics.trackEvent as any)('about_section_resume_download_click', eventData);
   };
 
   return (
@@ -66,8 +95,10 @@ const HeroAbout = () => {
                 A Software Engineer
               </p>
               <button 
+                ref={tellMeMoreBtnRef}
                 onClick={handleTellMeMoreClick}
                 className="btn btn-lg border-2 border-[#D4A017] bg-base-100 text-nous-yellow hover:bg-nous-blue hover:text-nous-yellow transition-all duration-300 rounded-none px-8"
+                data-action="view-about"
               >
                 Tell me more.
               </button>
@@ -78,8 +109,10 @@ const HeroAbout = () => {
         <section className="container mx-auto px-4 lg:px-8 py-10" aria-label="About Me">
           <div className="prose prose-lg max-w-2xl mx-auto nous-card p-6 relative bg-beige">
             <button 
+              ref={backBtnRef}
               onClick={handleBackClick}
               className="absolute top-1 right-1 btn btn-xs border-1 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none text-xs"
+              data-action="view-hero"
             >
               Back
             </button>
@@ -88,17 +121,21 @@ const HeroAbout = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button 
+                ref={scheduleCallBtnRef}
                 onClick={handleScheduleCallClick}
                 className="btn btn-lg border-2 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none px-8 flex-1"
+                data-action="schedule-call"
               >
                 Schedule a call
               </button>
               <a 
+                ref={resumeBtnRef}
                 href="/resumeRashikSh.pdf" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="btn btn-lg border-2 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none px-8 flex-1"
                 onClick={handleResumeClick}
+                data-action="view-resume"
               >
                 Resume
               </a>

@@ -14,13 +14,8 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ title, description, technologies, links }: ProjectCardProps) => {
   const handleLinkClick = (linkType: string, url: string) => {
-    trackClick('project_link', {
-      section: 'projects',
-      project: title,
-      linkType,
-      url,
-      action: 'external_navigation'
-    });
+    const safeTitle = title.toLowerCase().replace(/[^a-z0-9]/g, '_');
+    trackClick(`project_${safeTitle}_${linkType}_click`);
   };
 
   return (

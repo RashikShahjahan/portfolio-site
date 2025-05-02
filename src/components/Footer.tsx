@@ -2,11 +2,7 @@ import { trackClick } from '../utils/analytics';
 
 const Footer = () => {
   const handleSocialClick = (platform: string) => {
-    trackClick('social_link', {
-      section: 'footer',
-      platform,
-      action: 'external_navigation'
-    });
+    trackClick(`footer_social_${platform}`);
   };
 
   return (

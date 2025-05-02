@@ -2,11 +2,7 @@ import { trackClick } from '../utils/analytics';
 
 const Header = () => {
   const handleLogoClick = () => {
-    trackClick('logo', {
-      section: 'header',
-      action: 'navigation',
-      destination: 'home'
-    });
+    trackClick('header_logo_home_navigation');
   };
 
   return (

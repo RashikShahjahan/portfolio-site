@@ -2,25 +2,6 @@ import { useState, useRef } from 'react';
 import { useAnalytics } from 'rashik-analytics-provider';
 
 /**
- * Interface matching the Go backend's EventBase struct
- */
-interface EventBase {
-  service: string;
-  event: string;
-  path: string;
-  referrer: string;
-  user_browser: string;
-  user_device: string;
-}
-
-/**
- * Interface matching the Go backend's EventRequest struct
- */
-interface EventRequest extends EventBase {
-  timestamp: string;
-}
-
-/**
  * Determine user device type
  * @returns 'desktop', 'mobile', or 'tablet'
  */
@@ -34,24 +15,9 @@ const getUserDeviceType = (): string => {
   return 'desktop';
 };
 
-/**
- * Create an event request with descriptive name
- */
-const createEventRequest = (eventType: string): EventRequest => {
-  return {
-    service: 'portfolio',
-    event: eventType,
-    path: window.location.pathname,
-    referrer: document.referrer || '',
-    user_browser: navigator.userAgent,
-    user_device: getUserDeviceType(),
-    timestamp: new Date().toISOString()
-  };
-};
-
 const HeroAbout = () => {
   const [showHero, setShowHero] = useState(true);
-  const analytics = useAnalytics();
+  const { trackEvent } = useAnalytics();
   
   // References to the buttons
   const tellMeMoreBtnRef = useRef<HTMLButtonElement>(null);
@@ -60,26 +26,44 @@ const HeroAbout = () => {
   const resumeBtnRef = useRef<HTMLAnchorElement>(null);
 
   const handleTellMeMoreClick = () => {
-    const eventData = createEventRequest('hero_section_tell_me_more_click');
-    (analytics.trackEvent as any)('hero_section_tell_me_more_click', eventData);
+    trackEvent('hero_section_tell_me_more_click', {
+      path: window.location.pathname,
+      referrer: document.referrer || '',
+      user_device: getUserDeviceType(),
+      component: 'HeroAbout'
+    });
     setShowHero(false);
   };
 
   const handleBackClick = () => {
-    const eventData = createEventRequest('about_section_back_button_click');
-    (analytics.trackEvent as any)('about_section_back_button_click', eventData);
+    trackEvent('about_section_back_button_click', {
+      path: window.location.pathname,
+      referrer: document.referrer || '',
+      user_device: getUserDeviceType(),
+      component: 'HeroAbout'
+    });
     setShowHero(true);
   };
 
   const handleScheduleCallClick = () => {
-    const eventData = createEventRequest('about_section_schedule_call_click');
-    (analytics.trackEvent as any)('about_section_schedule_call_click', eventData);
+    trackEvent('about_section_schedule_call_click', {
+      path: window.location.pathname,
+      referrer: document.referrer || '',
+      user_device: getUserDeviceType(),
+      component: 'HeroAbout',
+      url: 'https://calendly.com/rashikshahjahan/intro-chat'
+    });
     window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank');
   };
 
   const handleResumeClick = () => {
-    const eventData = createEventRequest('about_section_resume_download_click');
-    (analytics.trackEvent as any)('about_section_resume_download_click', eventData);
+    trackEvent('about_section_resume_download_click', {
+      path: window.location.pathname,
+      referrer: document.referrer || '',
+      user_device: getUserDeviceType(),
+      component: 'HeroAbout',
+      file: 'resumeRashikSh.pdf'
+    });
   };
 
   return (

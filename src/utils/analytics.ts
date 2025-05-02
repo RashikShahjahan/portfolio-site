@@ -2,25 +2,6 @@ import { useEffect } from 'react';
 import { useAnalytics } from 'rashik-analytics-provider';
 
 /**
- * Interface matching the Go backend's EventBase struct
- */
-interface EventBase {
-  service: string;
-  event: string;
-  path: string;
-  referrer: string;
-  user_browser: string;
-  user_device: string;
-}
-
-/**
- * Interface matching the Go backend's EventRequest struct
- */
-interface EventRequest extends EventBase {
-  timestamp: string;
-}
-
-/**
  * Determine user device type
  * @returns 'desktop', 'mobile', or 'tablet'
  */
@@ -35,32 +16,19 @@ const getUserDeviceType = (): string => {
 };
 
 /**
- * Create a standard event request object
- */
-const createEventRequest = (eventType: string): EventRequest => {
-  return {
-    service: 'portfolio',
-    event: eventType,
-    path: window.location.pathname,
-    referrer: document.referrer || '',
-    user_browser: navigator.userAgent,
-    user_device: getUserDeviceType(),
-    timestamp: new Date().toISOString()
-  };
-};
-
-/**
  * Track website actions with the analytics provider
  * This is a fallback for non-React contexts
  */
-export const trackEvent = (eventName: string) => {
+export const trackEvent = (eventName: string, metadata?: Record<string, unknown>) => {
   try {
     // For non-React contexts, use the global handler if available
     if (typeof window !== 'undefined' && (window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
-      // Create the event object in the format expected by the backend
-      const eventRequest = createEventRequest(eventName);
-      
-      (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, eventRequest);
+      (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, {
+        path: window.location.pathname,
+        referrer: document.referrer || '',
+        user_device: getUserDeviceType(),
+        ...metadata
+      });
     } else {
       console.warn('Analytics provider not available for tracking event:', eventName);
     }
@@ -105,14 +73,13 @@ export const trackClick = (element: HTMLElement | string) => {
 /**
  * Track external link clicks
  * @param url - URL of the external link
- * @param linkText - Text content of the link
  */
 export const trackExternalLinkClick = (url: string) => {
   // Create descriptive event name based on URL
   const urlObj = new URL(url);
   const domain = urlObj.hostname.replace('www.', '');
   
-  trackEvent(`external_link_${domain}`);
+  trackEvent(`external_link_${domain}`, { url });
 };
 
 /**
@@ -131,19 +98,11 @@ export const usePageViewTracking = (pageName: string) => {
   const { trackEvent } = useAnalytics();
   
   useEffect(() => {
-    // Create the event object in the format expected by the backend
-    const eventRequest: EventRequest = {
-      service: 'portfolio',
-      event: `page_view_${pageName}`,
+    trackEvent(`page_view_${pageName}`, {
       path: window.location.pathname,
       referrer: document.referrer || '',
-      user_browser: navigator.userAgent,
-      user_device: getUserDeviceType(),
-      timestamp: new Date().toISOString()
-    };
-    
-    // Use 'as any' to bypass TypeScript restrictions
-    (trackEvent as any)(`page_view_${pageName}`, eventRequest);
+      user_device: getUserDeviceType()
+    });
   }, [pageName, trackEvent]);
 };
 
@@ -163,19 +122,11 @@ export const useClickTracking = (
     if (!element) return;
 
     const handleClick = () => {
-      // Create the event object in the format expected by the backend
-      const eventRequest: EventRequest = {
-        service: 'portfolio',
-        event: `click_${elementName}`,
+      trackEvent(`click_${elementName}`, {
         path: window.location.pathname,
         referrer: document.referrer || '',
-        user_browser: navigator.userAgent,
-        user_device: getUserDeviceType(),
-        timestamp: new Date().toISOString()
-      };
-      
-      // Use 'as any' to bypass TypeScript restrictions
-      (trackEvent as any)(`click_${elementName}`, eventRequest);
+        user_device: getUserDeviceType()
+      });
     };
 
     element.addEventListener('click', handleClick);
@@ -204,23 +155,18 @@ export const initializeAnalytics = () => {
         const href = linkElement.getAttribute('href');
         const isExternal = href && (href.startsWith('http') || href.startsWith('//'));
         
-        if (isExternal) {
+        if (isExternal && href) {
           try {
             const urlObj = new URL(href);
             const domain = urlObj.hostname.replace('www.', '');
             
-            const eventRequest: EventRequest = {
-              service: 'portfolio',
-              event: `external_link_${domain}`,
-              path: window.location.pathname,
-              referrer: document.referrer || '',
-              user_browser: navigator.userAgent,
-              user_device: getUserDeviceType(),
-              timestamp: new Date().toISOString()
-            };
-            
             if ((window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
-              (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(`external_link_${domain}`, eventRequest);
+              (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(`external_link_${domain}`, {
+                path: window.location.pathname,
+                referrer: document.referrer || '',
+                user_device: getUserDeviceType(),
+                url: href
+              });
             }
           } catch (error) {
             console.error('Error tracking external link:', error);
@@ -228,18 +174,13 @@ export const initializeAnalytics = () => {
         } else if (href && !href.startsWith('#')) {
           const eventName = `internal_link_${href.replace(/\//g, '_')}`;
           
-          const eventRequest: EventRequest = {
-            service: 'portfolio',
-            event: eventName,
-            path: window.location.pathname,
-            referrer: document.referrer || '',
-            user_browser: navigator.userAgent,
-            user_device: getUserDeviceType(),
-            timestamp: new Date().toISOString()
-          };
-          
           if ((window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
-            (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, eventRequest);
+            (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, {
+              path: window.location.pathname,
+              referrer: document.referrer || '',
+              user_device: getUserDeviceType(),
+              url: href
+            });
           }
         }
       } else {
@@ -249,18 +190,13 @@ export const initializeAnalytics = () => {
           const buttonId = buttonElement.id || 'unnamed_button';
           const eventName = `button_${buttonId}`;
           
-          const eventRequest: EventRequest = {
-            service: 'portfolio',
-            event: eventName,
-            path: window.location.pathname,
-            referrer: document.referrer || '',
-            user_browser: navigator.userAgent,
-            user_device: getUserDeviceType(),
-            timestamp: new Date().toISOString()
-          };
-          
           if ((window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
-            (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, eventRequest);
+            (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, {
+              path: window.location.pathname,
+              referrer: document.referrer || '',
+              user_device: getUserDeviceType(),
+              button_id: buttonId
+            });
           }
         }
       }

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { trackClick } from '../utils/analytics';
 
 const HeroAbout = () => {

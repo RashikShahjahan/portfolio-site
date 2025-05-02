@@ -7,9 +7,7 @@ import { usePageViewTracking } from './utils/analytics';
 
 function App() {
   // Track main page view
-  usePageViewTracking('homepage', { 
-    title: 'Rashik Shahjahan | Software Engineer'
-  });
+  usePageViewTracking('homepage');
 
   return (
     <div className="min-h-screen bg-base-100 flex flex-col" data-theme="nous">

@@ -1,44 +1,42 @@
 import { useEffect } from 'react';
+import { useAnalytics } from 'rashik-analytics-provider';
+
+/**
+ * Determine user device type
+ * @returns 'desktop', 'mobile', or 'tablet'
+ */
+const getUserDeviceType = (): string => {
+  const userAgent = navigator.userAgent;
+  if (/iPad|Android(?!.*Mobile)|Tablet/i.test(userAgent)) {
+    return 'tablet';
+  } else if (/Mobile|Android|iPhone|iPod/i.test(userAgent)) {
+    return 'mobile';
+  }
+  return 'desktop';
+};
 
 /**
  * Track website actions with the analytics provider
- * @param eventName - Name of the event to track
- * @param eventData - Additional data to include with the event
+ * This is a fallback for non-React contexts
  */
-export const trackEvent = (eventName: string, eventData?: Record<string, any>) => {
+export const trackEvent = (eventName: string, customData?: Record<string, any>) => {
   try {
-    // Send event to analytics endpoint
-    const endpoint = 'https://analytics.rashik.sh/api';
-    const data = {
-      eventName,
-      eventData: {
-        ...eventData,
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-        userAgent: navigator.userAgent,
-        screenWidth: window.innerWidth,
-        screenHeight: window.innerHeight,
-        referrer: document.referrer || 'direct'
-      }
-    };
-
-    // Use fetch API to send event data to the analytics endpoint
-    fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-      // Send the request with keepalive to ensure it completes even if the page is unloading
-      keepalive: true
-    }).catch(error => {
-      console.error('Error sending analytics event:', error);
-    });
-
-    // Also add to window for access by other components
-    const analyticsContext = (window as any).__ANALYTICS_CONTEXT__;
-    if (analyticsContext) {
-      analyticsContext.lastEvent = { eventName, eventData };
+    // For non-React contexts, use the global handler if available
+    if (typeof window !== 'undefined' && (window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
+      // Create the event object in the format expected by the backend
+      const eventRequest = {
+        service: 'portfolio', // Same as serviceName in AnalyticsProvider
+        event: eventName,
+        path: window.location.pathname,
+        referrer: document.referrer || '',
+        user_browser: navigator.userAgent,
+        user_device: getUserDeviceType(),
+        ...customData
+      };
+      
+      (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, eventRequest);
+    } else {
+      console.warn('Analytics provider not available for tracking event:', eventName);
     }
   } catch (error) {
     console.error('Error tracking event:', error);
@@ -48,10 +46,9 @@ export const trackEvent = (eventName: string, eventData?: Record<string, any>) =
 /**
  * Track page views
  * @param pageName - Name of the page
- * @param pageData - Additional data about the page
  */
-export const trackPageView = (pageName: string, pageData?: Record<string, any>) => {
-  trackEvent('page_view', { page: pageName, ...pageData });
+export const trackPageView = (pageName: string) => {
+  trackEvent('page_view', { path: `/${pageName}` });
 };
 
 /**
@@ -60,7 +57,10 @@ export const trackPageView = (pageName: string, pageData?: Record<string, any>) 
  * @param elementData - Additional data about the element
  */
 export const trackClick = (elementName: string, elementData?: Record<string, any>) => {
-  trackEvent('click', { element: elementName, ...elementData });
+  trackEvent('button_click', { 
+    button_id: elementName,
+    ...elementData 
+  });
 };
 
 /**
@@ -69,7 +69,10 @@ export const trackClick = (elementName: string, elementData?: Record<string, any
  * @param linkText - Text content of the link
  */
 export const trackExternalLinkClick = (url: string, linkText: string) => {
-  trackEvent('external_link_click', { url, text: linkText });
+  trackEvent('external_link_click', { 
+    link_url: url,
+    link_text: linkText 
+  });
 };
 
 /**
@@ -78,18 +81,33 @@ export const trackExternalLinkClick = (url: string, linkText: string) => {
  * @param formData - Additional data about the form submission
  */
 export const trackFormSubmit = (formName: string, formData?: Record<string, any>) => {
-  trackEvent('form_submit', { form: formName, ...formData });
+  trackEvent('form_submit', { 
+    form_id: formName,
+    ...formData 
+  });
 };
 
 /**
  * Custom hook to track page views when a component mounts
  * @param pageName - Name of the page to track
- * @param pageData - Additional data about the page
  */
-export const usePageViewTracking = (pageName: string, pageData?: Record<string, any>) => {
+export const usePageViewTracking = (pageName: string) => {
+  const { trackEvent } = useAnalytics();
+  
   useEffect(() => {
-    trackPageView(pageName, pageData);
-  }, [pageName, pageData]);
+    // Create the event object in the format expected by the backend
+    const eventRequest = {
+      service: 'portfolio', // Same as serviceName in AnalyticsProvider
+      event: 'page_view',
+      path: `/${pageName}`,
+      referrer: document.referrer || '',
+      user_browser: navigator.userAgent,
+      user_device: getUserDeviceType()
+    };
+    
+    // Use 'as any' to bypass TypeScript restrictions
+    (trackEvent as any)('page_view', eventRequest);
+  }, [pageName, trackEvent]);
 };
 
 /**
@@ -103,19 +121,34 @@ export const useClickTracking = (
   elementName: string,
   elementData?: Record<string, any>
 ) => {
+  const { trackEvent } = useAnalytics();
+  
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
     const handleClick = () => {
-      trackClick(elementName, elementData);
+      // Create the event object in the format expected by the backend
+      const eventRequest = {
+        service: 'portfolio', // Same as serviceName in AnalyticsProvider
+        event: 'button_click',
+        path: window.location.pathname,
+        referrer: document.referrer || '',
+        user_browser: navigator.userAgent,
+        user_device: getUserDeviceType(),
+        button_id: elementName,
+        ...elementData
+      };
+      
+      // Use 'as any' to bypass TypeScript restrictions
+      (trackEvent as any)('button_click', eventRequest);
     };
 
     element.addEventListener('click', handleClick);
     return () => {
       element.removeEventListener('click', handleClick);
     };
-  }, [ref, elementName, elementData]);
+  }, [ref, elementName, elementData, trackEvent]);
 };
 
 /**
@@ -123,9 +156,9 @@ export const useClickTracking = (
  */
 export const initializeAnalytics = () => {
   if (typeof window !== 'undefined') {
+    // Store trackEvent in window context for non-React components
     (window as any).__ANALYTICS_CONTEXT__ = {
-      trackEvent,
-      lastEvent: null
+      trackEvent
     };
 
     // Track all link clicks automatically
@@ -144,8 +177,8 @@ export const initializeAnalytics = () => {
           );
         } else if (href && !href.startsWith('#')) {
           trackClick('internal_link', {
-            href,
-            text: linkElement.textContent || 'Unknown link'
+            link_url: href,
+            link_text: linkElement.textContent || 'Unknown link'
           });
         }
       }

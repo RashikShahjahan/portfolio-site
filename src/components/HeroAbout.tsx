@@ -1,32 +1,56 @@
 import { useState } from 'react';
-import { trackClick } from '../utils/analytics';
+import { useAnalytics } from 'rashik-analytics-provider';
+
+/**
+ * Determine user device type
+ * @returns 'desktop', 'mobile', or 'tablet'
+ */
+const getUserDeviceType = (): string => {
+  const userAgent = navigator.userAgent;
+  if (/iPad|Android(?!.*Mobile)|Tablet/i.test(userAgent)) {
+    return 'tablet';
+  } else if (/Mobile|Android|iPhone|iPod/i.test(userAgent)) {
+    return 'mobile';
+  }
+  return 'desktop';
+};
 
 const HeroAbout = () => {
   const [showHero, setShowHero] = useState(true);
+  const analytics = useAnalytics();
+
+  const createEventObject = (buttonId: string, section: string) => ({
+    service: 'portfolio',
+    event: 'button_click',
+    path: window.location.pathname,
+    referrer: document.referrer || '',
+    user_browser: navigator.userAgent,
+    user_device: getUserDeviceType(),
+    button_id: buttonId,
+    section: section
+  });
 
   const handleTellMeMoreClick = () => {
-    trackClick('tell_me_more_button', { 
-      section: 'hero',
-      action: 'view_about'
-    });
+    const eventData = createEventObject('tell_me_more', 'hero');
+    (analytics.trackEvent as any)('button_click', eventData);
     setShowHero(false);
   };
 
   const handleBackClick = () => {
-    trackClick('back_button', { 
-      section: 'about',
-      action: 'view_hero'
-    });
+    const eventData = createEventObject('back', 'about');
+    (analytics.trackEvent as any)('button_click', eventData);
     setShowHero(true);
   };
 
   const handleScheduleCallClick = () => {
-    trackClick('schedule_call_button', {
-      section: 'about',
-      action: 'external_navigation',
-      destination: 'calendly'
-    });
+    const eventData = createEventObject('schedule_call', 'about');
+    (analytics.trackEvent as any)('button_click', eventData);
     window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank');
+  };
+
+  const handleResumeClick = () => {
+    const eventData = createEventObject('resume', 'about');
+    (analytics.trackEvent as any)('button_click', eventData);
   };
 
   return (
@@ -74,10 +98,7 @@ const HeroAbout = () => {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="btn btn-lg border-2 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none px-8 flex-1"
-                onClick={() => trackClick('resume_button', {
-                  section: 'about',
-                  action: 'view_resume'
-                })}
+                onClick={handleResumeClick}
               >
                 Resume
               </a>

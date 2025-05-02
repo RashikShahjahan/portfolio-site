@@ -1,7 +1,33 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { trackClick } from '../utils/analytics';
 
 const HeroAbout = () => {
   const [showHero, setShowHero] = useState(true);
+
+  const handleTellMeMoreClick = () => {
+    trackClick('tell_me_more_button', { 
+      section: 'hero',
+      action: 'view_about'
+    });
+    setShowHero(false);
+  };
+
+  const handleBackClick = () => {
+    trackClick('back_button', { 
+      section: 'about',
+      action: 'view_hero'
+    });
+    setShowHero(true);
+  };
+
+  const handleScheduleCallClick = () => {
+    trackClick('schedule_call_button', {
+      section: 'about',
+      action: 'external_navigation',
+      destination: 'calendly'
+    });
+    window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank');
+  };
 
   return (
     <>
@@ -16,7 +42,7 @@ const HeroAbout = () => {
                 A Software Engineer
               </p>
               <button 
-                onClick={() => setShowHero(false)}
+                onClick={handleTellMeMoreClick}
                 className="btn btn-lg border-2 border-[#D4A017] bg-base-100 text-nous-yellow hover:bg-nous-blue hover:text-nous-yellow transition-all duration-300 rounded-none px-8"
               >
                 Tell me more.
@@ -28,7 +54,7 @@ const HeroAbout = () => {
         <section className="container mx-auto px-4 lg:px-8 py-10" aria-label="About Me">
           <div className="prose prose-lg max-w-2xl mx-auto nous-card p-6 relative bg-beige">
             <button 
-              onClick={() => setShowHero(true)}
+              onClick={handleBackClick}
               className="absolute top-1 right-1 btn btn-xs border-1 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none text-xs"
             >
               Back
@@ -38,7 +64,7 @@ const HeroAbout = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button 
-                onClick={() => window.open('https://calendly.com/rashikshahjahan/intro-chat', '_blank')}
+                onClick={handleScheduleCallClick}
                 className="btn btn-lg border-2 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none px-8 flex-1"
               >
                 Schedule a call
@@ -48,6 +74,10 @@ const HeroAbout = () => {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="btn btn-lg border-2 border-nous-yellow bg-beige text-nous-yellow hover:bg-black hover:text-nous-yellow transition-all duration-300 rounded-none px-8 flex-1"
+                onClick={() => trackClick('resume_button', {
+                  section: 'about',
+                  action: 'view_resume'
+                })}
               >
                 Resume
               </a>

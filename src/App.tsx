@@ -3,8 +3,14 @@ import Header from './components/Header';
 import HeroAbout from './components/HeroAbout';
 import Footer from './components/Footer';
 import Projects from './components/Projects';
+import { usePageViewTracking } from './utils/analytics';
 
 function App() {
+  // Track main page view
+  usePageViewTracking('homepage', { 
+    title: 'Rashik Shahjahan | Software Engineer'
+  });
+
   return (
     <div className="min-h-screen bg-base-100 flex flex-col" data-theme="nous">
       <Helmet>

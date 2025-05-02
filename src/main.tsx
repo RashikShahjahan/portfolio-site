@@ -12,8 +12,8 @@ createRoot(document.getElementById('root')!).render(
     <AnalyticsProvider 
         endpoint="https://analytics.rashik.sh/events" 
         serviceName="portfolio"
-      >
-    <App />
+    >
+      <App />
     </AnalyticsProvider>
   </StrictMode>,
 )

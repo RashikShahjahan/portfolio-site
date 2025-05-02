@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Analytics />
       <AnalyticsProvider 
-          endpoint="https://analytics.rashik.sh/events" 
+          endpoint="https://analytics.rashik.sh/api" 
           serviceName="portfolio"
       >
         <App />

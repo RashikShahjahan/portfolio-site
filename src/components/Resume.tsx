@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAnalytics } from 'rashik-analytics-provider';
+import { trackEvent } from '../utils/analytics';
 
 /**
  * Determine user device type
@@ -16,8 +16,6 @@ const getUserDeviceType = (): string => {
 };
 
 const Resume = () => {
-  const { trackEvent } = useAnalytics();
-
   useEffect(() => {
     // Track the resume page visit
     trackEvent('resume_page_visit', {
@@ -29,7 +27,7 @@ const Resume = () => {
 
     // Redirect to the actual PDF file
     window.location.href = '/resumeRashikSh.pdf';
-  }, [trackEvent]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center" data-theme="nous">

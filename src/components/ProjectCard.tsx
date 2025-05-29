@@ -19,10 +19,10 @@ const ProjectCard = ({ title, description, technologies, links }: ProjectCardPro
   };
 
   return (
-    <article className="nous-card bg-base-100 border-2 border-nous-yellow-dark rounded-none p-10 hover:bg-nous-blue hover:text-nous-yellow transition-all duration-300 group flex flex-col h-full">
-      <h3 className="font-bold text-xl mb-4 h-[2rem] text-nous-text-primary group-hover:text-nous-yellow">{title}</h3>
-      <p className="mb-6 text-nous-text-secondary group-hover:text-nous-yellow/90 flex-grow min-h-[6rem]">{description}</p>
-      <div className="mb-4 min-h-[4rem]">
+    <article className="nous-card bg-base-100 border-2 border-nous-yellow-dark rounded-none p-6 hover:bg-nous-blue hover:text-nous-yellow transition-all duration-300 group flex flex-col h-full">
+      <h3 className="font-bold text-xl mb-3 h-[2rem] text-nous-text-primary group-hover:text-nous-yellow">{title}</h3>
+      <p className="mb-4 text-nous-text-secondary group-hover:text-nous-yellow/90 flex-grow min-h-[6rem]">{description}</p>
+      <div className="mb-3 min-h-[4rem]">
         <div className="flex flex-wrap gap-2">
           {technologies.map((tech) => (
             <span key={tech} className="px-2 py-1 text-sm border border-current rounded-full text-nous-text-secondary group-hover:text-nous-yellow/80">

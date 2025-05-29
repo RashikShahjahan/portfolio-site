@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import ProjectCard from './ProjectCard';
 
 const Projects = () => {
@@ -32,14 +33,61 @@ const Projects = () => {
     }
   ];
 
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false);
+      
+      setTimeout(() => {
+        setCurrentProjectIndex((prevIndex) => 
+          prevIndex === projects.length - 1 ? 0 : prevIndex + 1
+        );
+        setIsVisible(true);
+      }, 300); // Half of the transition duration
+    }, 4000); // Change project every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [projects.length]);
+
   return (
-    <section className="container mx-auto px-4 lg:px-8 mb-16" aria-label="Featured Projects">
-      <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center terminal-heading on-light text-nous-text-primary" data-text="Featured Projects">
+    <section className="container mx-auto px-2 lg:px-4 mb-8" aria-label="Featured Projects">
+      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center terminal-heading on-light text-nous-text-primary" data-text="Featured Projects">
         <span className="text-nous-text-primary">Featured Projects</span>
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {projects.map((project) => (
-          <ProjectCard key={project.title} {...project} />
+      
+      <div className="flex justify-center">
+        <div className="w-full max-w-lg lg:max-w-2xl">
+          <div 
+            className={`transition-opacity duration-600 ease-in-out ${
+              isVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <ProjectCard {...projects[currentProjectIndex]} />
+          </div>
+        </div>
+      </div>
+
+      {/* Project indicators */}
+      <div className="flex justify-center mt-8 space-x-2">
+        {projects.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setIsVisible(false);
+              setTimeout(() => {
+                setCurrentProjectIndex(index);
+                setIsVisible(true);
+              }, 300);
+            }}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentProjectIndex 
+                ? 'bg-nous-yellow-dark scale-110' 
+                : 'bg-nous-text-secondary/30 hover:bg-nous-text-secondary/60'
+            }`}
+            aria-label={`Go to project ${index + 1}`}
+          />
         ))}
       </div>
     </section>

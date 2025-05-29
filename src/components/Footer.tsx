@@ -6,7 +6,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="footer footer-center p-8 text-nous-text-primary border-t-2 border-nous-yellow-dark bg-base-100">
+    <footer className="footer footer-center p-4 text-nous-text-primary border-t-2 border-nous-yellow-dark bg-base-100">
       <nav className="grid grid-flow-col gap-6" aria-label="Social Links">
         <a 
           href="https://github.com/RashikShahjahan" 

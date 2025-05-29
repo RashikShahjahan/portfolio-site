@@ -6,7 +6,7 @@ const Header = () => {
   };
 
   return (
-    <header className="navbar px-4 lg:px-6 py-2 border-b-2 border-nous-yellow-dark bg-base-100">
+    <header className="navbar px-2 lg:px-4 py-1 border-b-2 border-nous-yellow-dark bg-base-100">
       <div className="navbar-start">
         <a 
           href="/" 

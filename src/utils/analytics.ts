@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useAnalytics } from 'rashik-analytics-provider';
+import React from 'react';
 
 /**
  * Determine user device type
@@ -16,22 +17,21 @@ const getUserDeviceType = (): string => {
 };
 
 /**
- * Track website actions with the analytics provider
- * This is a fallback for non-React contexts
+ * Simple analytics tracking function
+ * This is a temporary solution while we fix the router context issue
  */
 export const trackEvent = (eventName: string, metadata?: Record<string, unknown>) => {
   try {
-    // For non-React contexts, use the global handler if available
-    if (typeof window !== 'undefined' && (window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
-      (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, {
-        path: window.location.pathname,
-        referrer: document.referrer || '',
-        user_device: getUserDeviceType(),
-        ...metadata
-      });
-    } else {
-      console.warn('Analytics provider not available for tracking event:', eventName);
-    }
+    // For now, just log to console. You can replace this with your preferred analytics service
+    console.log('Analytics Event:', eventName, {
+      path: window.location.pathname,
+      referrer: document.referrer || '',
+      user_device: getUserDeviceType(),
+      timestamp: new Date().toISOString(),
+      ...metadata
+    });
+    
+    // You can add other analytics services here like Google Analytics, PostHog, etc.
   } catch (error) {
     console.error('Error tracking event:', error);
   }
@@ -95,15 +95,14 @@ export const trackFormSubmit = (formName: string) => {
  * @param pageName - Name of the page to track
  */
 export const usePageViewTracking = (pageName: string) => {
-  const { trackEvent } = useAnalytics();
-  
-  useEffect(() => {
+  // Simple implementation without the analytics provider
+  React.useEffect(() => {
     trackEvent(`page_view_${pageName}`, {
       path: window.location.pathname,
       referrer: document.referrer || '',
       user_device: getUserDeviceType()
     });
-  }, [pageName, trackEvent]);
+  }, [pageName]);
 };
 
 /**
@@ -115,9 +114,7 @@ export const useClickTracking = (
   ref: React.RefObject<HTMLElement>,
   elementName: string
 ) => {
-  const { trackEvent } = useAnalytics();
-  
-  useEffect(() => {
+  React.useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
@@ -133,7 +130,7 @@ export const useClickTracking = (
     return () => {
       element.removeEventListener('click', handleClick);
     };
-  }, [ref, elementName, trackEvent]);
+  }, [ref, elementName]);
 };
 
 /**
@@ -160,45 +157,38 @@ export const initializeAnalytics = () => {
             const urlObj = new URL(href);
             const domain = urlObj.hostname.replace('www.', '');
             
-            if ((window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
-              (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(`external_link_${domain}`, {
-                path: window.location.pathname,
-                referrer: document.referrer || '',
-                user_device: getUserDeviceType(),
-                url: href
-              });
-            }
+            trackEvent(`external_link_${domain}`, {
+              path: window.location.pathname,
+              referrer: document.referrer || '',
+              user_device: getUserDeviceType(),
+              url: href
+            });
           } catch (error) {
             console.error('Error tracking external link:', error);
           }
         } else if (href && !href.startsWith('#')) {
           const eventName = `internal_link_${href.replace(/\//g, '_')}`;
           
-          if ((window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
-            (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, {
-              path: window.location.pathname,
-              referrer: document.referrer || '',
-              user_device: getUserDeviceType(),
-              url: href
-            });
-          }
+          trackEvent(eventName, {
+            path: window.location.pathname,
+            referrer: document.referrer || '',
+            user_device: getUserDeviceType(),
+            url: href
+          });
         }
-      } else {
-        // Track button clicks as well
-        const buttonElement = target.closest('button');
-        if (buttonElement) {
-          const buttonId = buttonElement.id || 'unnamed_button';
-          const eventName = `button_${buttonId}`;
-          
-          if ((window as any).ANALYTICS_PROVIDER_TRACK_EVENT) {
-            (window as any).ANALYTICS_PROVIDER_TRACK_EVENT(eventName, {
-              path: window.location.pathname,
-              referrer: document.referrer || '',
-              user_device: getUserDeviceType(),
-              button_id: buttonId
-            });
-          }
-        }
+      }
+      // Track button clicks as well
+      const buttonElement = target.closest('button');
+      if (buttonElement) {
+        const buttonId = buttonElement.id || 'unnamed_button';
+        const eventName = `button_${buttonId}`;
+        
+        trackEvent(eventName, {
+          path: window.location.pathname,
+          referrer: document.referrer || '',
+          user_device: getUserDeviceType(),
+          button_id: buttonId
+        });
       }
     });
   }

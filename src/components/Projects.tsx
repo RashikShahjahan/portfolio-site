@@ -45,8 +45,8 @@ const Projects = () => {
           prevIndex === projects.length - 1 ? 0 : prevIndex + 1
         );
         setIsVisible(true);
-      }, 300); // Half of the transition duration
-    }, 4000); // Change project every 4 seconds
+      }, 300);
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [projects.length]);
@@ -59,12 +59,20 @@ const Projects = () => {
       
       <div className="flex justify-center">
         <div className="w-full max-w-lg lg:max-w-2xl">
+          {/* Animated project card container */}
           <div 
-            className={`transition-opacity duration-600 ease-in-out ${
-              isVisible ? 'opacity-100' : 'opacity-0'
+            className={`transition-all duration-500 ease-in-out ${
+              isVisible 
+                ? 'opacity-100' 
+                : 'opacity-0'
             }`}
           >
-            <ProjectCard {...projects[currentProjectIndex]} />
+            <ProjectCard
+              title={projects[currentProjectIndex].title}
+              description={projects[currentProjectIndex].description}
+              technologies={projects[currentProjectIndex].technologies}
+              links={projects[currentProjectIndex].links}
+            />
           </div>
         </div>
       </div>

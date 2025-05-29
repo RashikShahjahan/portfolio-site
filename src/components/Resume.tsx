@@ -34,8 +34,8 @@ const Resume = () => {
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center" data-theme="nous">
       <div className="text-center">
-        <div className="loading loading-spinner loading-lg text-nous-yellow"></div>
-        <p className="mt-4 text-nous-yellow">Redirecting to resume...</p>
+        <div className="loading loading-spinner loading-lg text-nous-yellow-dark"></div>
+        <p className="mt-4 text-nous-text-primary">Redirecting to resume...</p>
       </div>
     </div>
   );

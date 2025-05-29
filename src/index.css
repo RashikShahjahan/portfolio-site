@@ -2,21 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles to ensure yellow text */
+/* Global styles for better readability */
 :root {
-  color: #D4A017;
+  color: #2C3E50; /* Dark text for light backgrounds */
 }
 
-/* Ensure all text on dark backgrounds is yellow */
+/* Light backgrounds get dark text for better readability */
+.bg-base-100, .bg-base-200, .bg-base-300, .bg-nous-light,
+[class*="bg-base"], [class*="bg-light"] {
+  color: #2C3E50 !important;
+}
+
+/* Dark backgrounds get bright yellow text */
 .bg-[#0A0A0A], .bg-[#1A1A1A], [class*="bg-nous-blue"], [class*="bg-black"], 
-.dark, .bg-dark, .bg-neutral, .bg-neutral-focus, .bg-base-300,
+.dark, .bg-dark, .bg-neutral, .bg-neutral-focus,
 [class*="dark"], [class*="black"] {
-  color: #D4A017 !important;
+  color: #F4D03F !important;
 }
 
-/* Target specific elements inside dark backgrounds to ensure yellow text */
+/* Target specific elements inside light backgrounds for dark text */
+.bg-base-100 *, .bg-base-200 *, .bg-base-300 *, .bg-nous-light *,
+[class*="bg-base"] *, [class*="bg-light"] * {
+  color: #2C3E50 !important;
+}
+
+/* Target specific elements inside dark backgrounds for bright yellow text */
 .bg-[#0A0A0A] *, .bg-[#1A1A1A] *, [class*="bg-nous-blue"] *, [class*="bg-black"] *, 
-.dark *, .bg-dark *, .bg-neutral *, .bg-neutral-focus *, .bg-base-300 *,
+.dark *, .bg-dark *, .bg-neutral *, .bg-neutral-focus *,
 [class*="dark"] *, [class*="black"] * {
-  color: #D4A017 !important;
+  color: #F4D03F !important;
 }

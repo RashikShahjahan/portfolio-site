@@ -19,13 +19,13 @@ const ProjectCard = ({ title, description, technologies, links }: ProjectCardPro
   };
 
   return (
-    <article className="nous-card bg-base-100 border-2 border-[#D4A017] rounded-none p-10 hover:bg-nous-blue hover:text-white transition-all duration-300 group flex flex-col h-full">
-      <h3 className="font-bold text-xl mb-4 h-[2rem] text-nous-yellow group-hover:text-white">{title}</h3>
-      <p className="mb-6 text-nous-yellow/90 group-hover:text-white/90 flex-grow min-h-[6rem]">{description}</p>
+    <article className="nous-card bg-base-100 border-2 border-nous-yellow-dark rounded-none p-10 hover:bg-nous-blue hover:text-nous-yellow transition-all duration-300 group flex flex-col h-full">
+      <h3 className="font-bold text-xl mb-4 h-[2rem] text-nous-text-primary group-hover:text-nous-yellow">{title}</h3>
+      <p className="mb-6 text-nous-text-secondary group-hover:text-nous-yellow/90 flex-grow min-h-[6rem]">{description}</p>
       <div className="mb-4 min-h-[4rem]">
         <div className="flex flex-wrap gap-2">
           {technologies.map((tech) => (
-            <span key={tech} className="px-2 py-1 text-sm border border-current rounded-full">
+            <span key={tech} className="px-2 py-1 text-sm border border-current rounded-full text-nous-text-secondary group-hover:text-nous-yellow/80">
               {tech}
             </span>
           ))}
@@ -38,7 +38,7 @@ const ProjectCard = ({ title, description, technologies, links }: ProjectCardPro
               href={links.github} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-nous-yellow group-hover:text-white/90 inline-flex items-center gap-1"
+              className="text-nous-yellow-dark group-hover:text-nous-yellow/90 inline-flex items-center gap-1 hover:text-nous-blue transition-colors"
               onClick={() => handleLinkClick('github')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -52,7 +52,7 @@ const ProjectCard = ({ title, description, technologies, links }: ProjectCardPro
               href={links.demo} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-nous-yellow group-hover:text-white/90 inline-flex items-center gap-1"
+              className="text-nous-yellow-dark group-hover:text-nous-yellow/90 inline-flex items-center gap-1 hover:text-nous-blue transition-colors"
               onClick={() => handleLinkClick('demo')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -66,7 +66,7 @@ const ProjectCard = ({ title, description, technologies, links }: ProjectCardPro
               href={links.huggingface} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-nous-yellow group-hover:text-white/90 inline-flex items-center gap-1"
+              className="text-nous-yellow-dark group-hover:text-nous-yellow/90 inline-flex items-center gap-1 hover:text-nous-blue transition-colors"
               onClick={() => handleLinkClick('huggingface')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -80,7 +80,7 @@ const ProjectCard = ({ title, description, technologies, links }: ProjectCardPro
               href={links.blog} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-nous-yellow group-hover:text-white/90 inline-flex items-center gap-1"
+              className="text-nous-yellow-dark group-hover:text-nous-yellow/90 inline-flex items-center gap-1 hover:text-nous-blue transition-colors"
               onClick={() => handleLinkClick('blog')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

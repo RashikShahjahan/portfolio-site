@@ -4,67 +4,128 @@
 @tailwind utilities;
 
 @layer base {
-  /* Set terminal-like styling for all default elements */
+  /* Set terminal-like styling with improved readability */
   h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, li {
-    @apply font-mono text-nous-yellow;
-    text-shadow: 0 0 2px rgba(212, 160, 23, 0.5);
+    @apply font-mono;
+  }
+  
+  /* Light backgrounds get dark text */
+  .bg-base-100 h1, .bg-base-100 h2, .bg-base-100 h3, .bg-base-100 h4, .bg-base-100 h5, .bg-base-100 h6,
+  .bg-base-100 p, .bg-base-100 span, .bg-base-100 div, .bg-base-100 a, .bg-base-100 button,
+  .bg-base-100 input, .bg-base-100 textarea, .bg-base-100 select, .bg-base-100 li {
+    @apply text-nous-text-primary;
+  }
+  
+  /* Dark backgrounds get bright yellow text */
+  .bg-nous-blue h1, .bg-nous-blue h2, .bg-nous-blue h3, .bg-nous-blue h4, .bg-nous-blue h5, .bg-nous-blue h6,
+  .bg-nous-blue p, .bg-nous-blue span, .bg-nous-blue div, .bg-nous-blue a, .bg-nous-blue button,
+  .bg-nous-blue input, .bg-nous-blue textarea, .bg-nous-blue select, .bg-nous-blue li {
+    @apply text-nous-yellow;
+    text-shadow: 0 0 2px rgba(244, 208, 63, 0.5);
   }
 }
 
 @layer components {
   /* Text color defaults */
   .nous-text {
-    @apply text-nous-yellow;
+    @apply text-nous-text-primary;
+  }
+  
+  .nous-text-accent {
+    @apply text-nous-yellow-dark;
   }
   
   /* Alternating backgrounds */
   .nous-bg-light {
-    @apply bg-[#E8E6D9]; /* Beige */
+    @apply bg-nous-light text-nous-text-primary;
   }
   
   .nous-bg-dark {
-    @apply bg-[#0A0A0A] text-nous-yellow; /* Rich black with yellow text */
+    @apply bg-nous-blue text-nous-yellow;
   }
   
-  /* Force yellow text on dark backgrounds */
+  /* Force appropriate text colors on backgrounds */
   .bg-nous-blue *, .bg-[#0A0A0A] *, .bg-[#1A1A1A] *, .nous-bg-dark * {
     @apply text-nous-yellow !important;
+  }
+  
+  .bg-base-100 *, .bg-nous-light *, .nous-bg-light * {
+    @apply text-nous-text-primary !important;
   }
   
   /* Duotone effect for images */
   .duotone-nous {
     filter: brightness(0.8) contrast(1.2) grayscale(1);
     mix-blend-mode: screen;
-    background-color: #D4A017;
+    background-color: #F4D03F;
   }
   
-  /* Terminal-like text for headings */
+  /* Terminal-like text for headings with better contrast */
   .terminal-heading {
-    @apply font-mono font-bold tracking-wider text-nous-yellow;
-    text-shadow: 0 0 5px rgba(212, 160, 23, 0.7);
+    @apply font-mono font-bold tracking-wider;
+  }
+  
+  .terminal-heading.on-light {
+    @apply text-nous-text-primary;
+    text-shadow: 0 0 3px rgba(44, 62, 80, 0.3);
+  }
+  
+  .terminal-heading.on-dark {
+    @apply text-nous-yellow;
+    text-shadow: 0 0 5px rgba(244, 208, 63, 0.7);
   }
 
   /* Terminal-like text for content */
   .terminal-content {
-    @apply font-mono text-nous-yellow;
-    text-shadow: 0 0 2px rgba(212, 160, 23, 0.5);
+    @apply font-mono;
   }
   
-  /* Cyberpunk-style card */
+  .terminal-content.on-light {
+    @apply text-nous-text-secondary;
+  }
+  
+  .terminal-content.on-dark {
+    @apply text-nous-yellow;
+    text-shadow: 0 0 2px rgba(244, 208, 63, 0.5);
+  }
+  
+  /* Improved card styles */
   .nous-card {
-    @apply bg-base-100 border-2 border-[#D4A017] rounded-md shadow-lg text-nous-yellow;
-    box-shadow: 0 0 15px rgba(212, 160, 23, 0.4);
+    @apply bg-base-100 border-2 border-nous-yellow-dark rounded-md shadow-lg text-nous-text-primary;
+    box-shadow: 0 0 15px rgba(212, 160, 23, 0.3);
   }
   
-  /* Black accent card */
+  /* Dark accent card */
   .nous-card-dark {
-    @apply bg-[#0A0A0A] border-2 border-[#D4A017] rounded-md shadow-lg text-nous-yellow;
-    box-shadow: 0 0 15px rgba(212, 160, 23, 0.4);
+    @apply bg-nous-blue border-2 border-nous-yellow rounded-md shadow-lg text-nous-yellow;
+    box-shadow: 0 0 15px rgba(244, 208, 63, 0.4);
+  }
+  
+  /* Improved button styles */
+  .btn-nous-primary {
+    @apply border-2 border-nous-yellow-dark bg-base-100 text-nous-text-primary hover:bg-nous-blue hover:text-nous-yellow hover:border-nous-yellow transition-all duration-300;
+  }
+  
+  .btn-nous-secondary {
+    @apply border-2 border-nous-yellow bg-nous-blue text-nous-yellow hover:bg-base-100 hover:text-nous-text-primary hover:border-nous-yellow-dark transition-all duration-300;
+  }
+  
+  /* Link styles for better readability */
+  .link-nous {
+    @apply text-nous-yellow-dark hover:text-nous-blue transition-colors duration-200;
+  }
+  
+  .link-nous.on-dark {
+    @apply text-nous-yellow hover:text-nous-yellow/80 transition-colors duration-200;
   }
   
   /* Glitch effect for text (minimal) */
   .text-glitch {
     position: relative;
+    @apply text-nous-text-primary;
+  }
+  
+  .text-glitch.on-dark {
     @apply text-nous-yellow;
   }
   
@@ -87,7 +148,7 @@
   
   .text-glitch::after {
     left: -2px;
-    text-shadow: -1px 0 #E8E6D9;
+    text-shadow: -1px 0 #F8F6F0;
     clip: rect(44px, 450px, 56px, 0);
     animation: glitch-anim 5s infinite linear alternate-reverse;
     animation-delay: 0.3s;

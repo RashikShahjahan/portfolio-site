@@ -6,13 +6,13 @@ const Footer = () => {
   };
 
   return (
-    <footer className="footer footer-center p-8 text-nous-yellow border-t-2 border-[#D4A017]">
+    <footer className="footer footer-center p-8 text-nous-text-primary border-t-2 border-nous-yellow-dark bg-base-100">
       <nav className="grid grid-flow-col gap-6" aria-label="Social Links">
         <a 
           href="https://github.com/RashikShahjahan" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="hover:text-nous-blue transition-colors"
+          className="text-nous-yellow-dark hover:text-nous-blue transition-colors"
           onClick={() => handleSocialClick('github')}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -23,7 +23,7 @@ const Footer = () => {
           href="https://linkedin.com/in/rashikshahjahan" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="hover:text-nous-blue transition-colors"
+          className="text-nous-yellow-dark hover:text-nous-blue transition-colors"
           onClick={() => handleSocialClick('linkedin')}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -34,7 +34,7 @@ const Footer = () => {
           href="mailto:rashikshahjahan@protonmail.com" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="hover:text-nous-blue transition-colors"
+          className="text-nous-yellow-dark hover:text-nous-blue transition-colors"
           onClick={() => handleSocialClick('email')}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -45,7 +45,7 @@ const Footer = () => {
           href="https://x.com/RashikShahjahan" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="hover:text-nous-blue transition-colors"
+          className="text-nous-yellow-dark hover:text-nous-blue transition-colors"
           onClick={() => handleSocialClick('twitter')}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">

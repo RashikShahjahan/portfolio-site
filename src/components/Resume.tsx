@@ -1,39 +1,32 @@
 import { useEffect } from 'react';
 import { trackEvent } from '../utils/analytics';
 
-/**
- * Determine user device type
- * @returns 'desktop', 'mobile', or 'tablet'
- */
-const getUserDeviceType = (): string => {
-  const userAgent = navigator.userAgent;
-  if (/iPad|Android(?!.*Mobile)|Tablet/i.test(userAgent)) {
-    return 'tablet';
-  } else if (/Mobile|Android|iPhone|iPod/i.test(userAgent)) {
-    return 'mobile';
-  }
-  return 'desktop';
-};
-
 const Resume = () => {
   useEffect(() => {
-    // Track the resume page visit
-    trackEvent('resume_page_visit', {
-      path: window.location.pathname,
-      referrer: document.referrer || '',
-      user_device: getUserDeviceType(),
+    // Track resume page view
+    trackEvent('resume_page_view', {
       component: 'Resume'
     });
+  }, []);
 
-    // Redirect to the actual PDF file
-    window.location.href = '/resumeRashikSh.pdf';
+  useEffect(() => {
+    // Redirect to PDF after a short delay to allow tracking
+    const timer = setTimeout(() => {
+      window.location.href = '/resumeRashikSh.pdf';
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center" data-theme="nous">
+    <div className="flex-grow flex items-center justify-center bg-base-100">
       <div className="text-center">
-        <div className="loading loading-spinner loading-lg text-nous-yellow-dark"></div>
-        <p className="mt-4 text-nous-text-primary">Redirecting to resume...</p>
+        <h1 className="text-2xl font-bold text-nous-text-primary mb-4">
+          Loading Resume...
+        </h1>
+        <p className="text-nous-text-secondary">
+          You will be redirected to the PDF shortly.
+        </p>
       </div>
     </div>
   );

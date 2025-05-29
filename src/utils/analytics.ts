@@ -1,12 +1,10 @@
-import { useEffect } from 'react';
-import { useAnalytics } from 'rashik-analytics-provider';
 import React from 'react';
 
 /**
  * Determine user device type
  * @returns 'desktop', 'mobile', or 'tablet'
  */
-const getUserDeviceType = (): string => {
+export const getUserDeviceType = (): string => {
   const userAgent = navigator.userAgent;
   if (/iPad|Android(?!.*Mobile)|Tablet/i.test(userAgent)) {
     return 'tablet';
@@ -17,92 +15,53 @@ const getUserDeviceType = (): string => {
 };
 
 /**
- * Simple analytics tracking function
- * This is a temporary solution while we fix the router context issue
+ * Get common analytics metadata
  */
-export const trackEvent = (eventName: string, metadata?: Record<string, unknown>) => {
-  try {
-    // For now, just log to console. You can replace this with your preferred analytics service
-    console.log('Analytics Event:', eventName, {
-      path: window.location.pathname,
-      referrer: document.referrer || '',
-      user_device: getUserDeviceType(),
-      timestamp: new Date().toISOString(),
-      ...metadata
-    });
-    
-    // You can add other analytics services here like Google Analytics, PostHog, etc.
-  } catch (error) {
-    console.error('Error tracking event:', error);
-  }
-};
-
-/**
- * Track page views
- * @param pageName - Name of the page
- */
-export const trackPageView = (pageName: string) => {
-  trackEvent(`page_view_${pageName}`);
-};
-
-/**
- * Track clicks on elements
- * @param element - The element that was clicked, or info about it
- */
-export const trackClick = (element: HTMLElement | string) => {
-  let eventName = 'click';
-  
-  if (typeof element === 'string') {
-    eventName = `click_${element}`;
-  } else {
-    // Add element identifier to event name
-    if (element.id) {
-      eventName = `click_${element.id}`;
-    } else if (element.className) {
-      // Create a simplified class-based identifier
-      const classId = element.className.split(' ')[0];
-      eventName = `click_${element.tagName.toLowerCase()}_${classId}`;
-    } else {
-      eventName = `click_${element.tagName.toLowerCase()}`;
-    }
-  }
-  
-  trackEvent(eventName);
-};
-
-/**
- * Track external link clicks
- * @param url - URL of the external link
- */
-export const trackExternalLinkClick = (url: string) => {
-  // Create descriptive event name based on URL
-  const urlObj = new URL(url);
-  const domain = urlObj.hostname.replace('www.', '');
-  
-  trackEvent(`external_link_${domain}`, { url });
-};
-
-/**
- * Track form submissions
- * @param formName - Name of the form
- */
-export const trackFormSubmit = (formName: string) => {
-  trackEvent(`form_submit_${formName}`);
-};
+export const getAnalyticsMetadata = () => ({
+  path: window.location.pathname,
+  referrer: document.referrer || '',
+  user_device: getUserDeviceType(),
+  timestamp: new Date().toISOString()
+});
 
 /**
  * Custom hook to track page views when a component mounts
  * @param pageName - Name of the page to track
  */
 export const usePageViewTracking = (pageName: string) => {
-  // Simple implementation without the analytics provider
   React.useEffect(() => {
-    trackEvent(`page_view_${pageName}`, {
-      path: window.location.pathname,
-      referrer: document.referrer || '',
-      user_device: getUserDeviceType()
-    });
+    // Access the global trackEvent function set by AnalyticsWrapper
+    const trackEvent = (window as any).ANALYTICS_PROVIDER_TRACK_EVENT;
+    if (trackEvent) {
+      trackEvent(`page_view_${pageName}`, getAnalyticsMetadata());
+    }
   }, [pageName]);
+};
+
+/**
+ * Track clicks on elements
+ * @param elementName - Name of the element for tracking
+ */
+export const trackClick = (elementName: string) => {
+  const trackEvent = (window as any).ANALYTICS_PROVIDER_TRACK_EVENT;
+  if (trackEvent) {
+    trackEvent(`click_${elementName}`, getAnalyticsMetadata());
+  }
+};
+
+/**
+ * Track custom events
+ * @param eventName - Name of the event
+ * @param metadata - Additional metadata
+ */
+export const trackEvent = (eventName: string, metadata?: Record<string, unknown>) => {
+  const trackEventFn = (window as any).ANALYTICS_PROVIDER_TRACK_EVENT;
+  if (trackEventFn) {
+    trackEventFn(eventName, {
+      ...getAnalyticsMetadata(),
+      ...metadata
+    });
+  }
 };
 
 /**
@@ -119,11 +78,7 @@ export const useClickTracking = (
     if (!element) return;
 
     const handleClick = () => {
-      trackEvent(`click_${elementName}`, {
-        path: window.location.pathname,
-        referrer: document.referrer || '',
-        user_device: getUserDeviceType()
-      });
+      trackClick(elementName);
     };
 
     element.addEventListener('click', handleClick);
@@ -131,65 +86,4 @@ export const useClickTracking = (
       element.removeEventListener('click', handleClick);
     };
   }, [ref, elementName]);
-};
-
-/**
- * Add analytics tracking to window object for global access
- */
-export const initializeAnalytics = () => {
-  if (typeof window !== 'undefined') {
-    // Store trackEvent in window context for non-React components
-    (window as any).__ANALYTICS_CONTEXT__ = {
-      trackEvent
-    };
-
-    // Track all link clicks automatically
-    document.addEventListener('click', (event) => {
-      const target = event.target as HTMLElement;
-      const linkElement = target.closest('a');
-      
-      if (linkElement) {
-        const href = linkElement.getAttribute('href');
-        const isExternal = href && (href.startsWith('http') || href.startsWith('//'));
-        
-        if (isExternal && href) {
-          try {
-            const urlObj = new URL(href);
-            const domain = urlObj.hostname.replace('www.', '');
-            
-            trackEvent(`external_link_${domain}`, {
-              path: window.location.pathname,
-              referrer: document.referrer || '',
-              user_device: getUserDeviceType(),
-              url: href
-            });
-          } catch (error) {
-            console.error('Error tracking external link:', error);
-          }
-        } else if (href && !href.startsWith('#')) {
-          const eventName = `internal_link_${href.replace(/\//g, '_')}`;
-          
-          trackEvent(eventName, {
-            path: window.location.pathname,
-            referrer: document.referrer || '',
-            user_device: getUserDeviceType(),
-            url: href
-          });
-        }
-      }
-      // Track button clicks as well
-      const buttonElement = target.closest('button');
-      if (buttonElement) {
-        const buttonId = buttonElement.id || 'unnamed_button';
-        const eventName = `button_${buttonId}`;
-        
-        trackEvent(eventName, {
-          path: window.location.pathname,
-          referrer: document.referrer || '',
-          user_device: getUserDeviceType(),
-          button_id: buttonId
-        });
-      }
-    });
-  }
 }; 

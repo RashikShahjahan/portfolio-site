@@ -1,20 +1,6 @@
 import { useState, useRef } from 'react';
 import { trackEvent } from '../utils/analytics';
 
-/**
- * Determine user device type
- * @returns 'desktop', 'mobile', or 'tablet'
- */
-const getUserDeviceType = (): string => {
-  const userAgent = navigator.userAgent;
-  if (/iPad|Android(?!.*Mobile)|Tablet/i.test(userAgent)) {
-    return 'tablet';
-  } else if (/Mobile|Android|iPhone|iPod/i.test(userAgent)) {
-    return 'mobile';
-  }
-  return 'desktop';
-};
-
 const HeroAbout = () => {
   const [showHero, setShowHero] = useState(true);
   
@@ -26,9 +12,6 @@ const HeroAbout = () => {
 
   const handleTellMeMoreClick = () => {
     trackEvent('hero_section_tell_me_more_click', {
-      path: window.location.pathname,
-      referrer: document.referrer || '',
-      user_device: getUserDeviceType(),
       component: 'HeroAbout'
     });
     setShowHero(false);
@@ -36,9 +19,6 @@ const HeroAbout = () => {
 
   const handleBackClick = () => {
     trackEvent('about_section_back_button_click', {
-      path: window.location.pathname,
-      referrer: document.referrer || '',
-      user_device: getUserDeviceType(),
       component: 'HeroAbout'
     });
     setShowHero(true);
@@ -46,9 +26,6 @@ const HeroAbout = () => {
 
   const handleScheduleCallClick = () => {
     trackEvent('about_section_schedule_call_click', {
-      path: window.location.pathname,
-      referrer: document.referrer || '',
-      user_device: getUserDeviceType(),
       component: 'HeroAbout',
       url: 'https://calendly.com/rashikshahjahan/intro-chat'
     });
@@ -57,9 +34,6 @@ const HeroAbout = () => {
 
   const handleResumeClick = () => {
     trackEvent('about_section_resume_download_click', {
-      path: window.location.pathname,
-      referrer: document.referrer || '',
-      user_device: getUserDeviceType(),
       component: 'HeroAbout',
       file: 'resumeRashikSh.pdf'
     });

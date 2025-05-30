@@ -1,14 +1,19 @@
-import { trackClick } from '../utils/analytics';
+'use client';
+
+import Link from 'next/link';
+import { useTrackEvent, trackClick } from '../utils/analytics';
 
 const Header = () => {
+  const trackEvent = useTrackEvent();
+  
   const handleLogoClick = () => {
-    trackClick('header_logo_home_navigation');
+    trackClick(trackEvent, 'header_logo_home_navigation');
   };
 
   return (
     <header className="navbar px-2 lg:px-4 py-1 border-b-2 border-nous-yellow-dark bg-base-100">
       <div className="navbar-start">
-        <a 
+        <Link 
           href="/" 
           className="text-xl font-bold terminal-heading on-light" 
           aria-label="Rashik Shahjahan Homepage" 
@@ -16,7 +21,7 @@ const Header = () => {
           onClick={handleLogoClick}
         >
           <span className="text-nous-text-primary">Rashik Shahjahan</span>
-        </a>
+        </Link>
       </div>
     </header>
   );

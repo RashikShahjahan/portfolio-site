@@ -1,13 +1,17 @@
+'use client';
+
 import { useEffect } from 'react';
-import { trackEvent } from '../utils/analytics';
+import { useTrackEvent, trackCustomEvent } from '../utils/analytics';
 
 const Resume = () => {
+  const trackEvent = useTrackEvent();
+  
   useEffect(() => {
     // Track resume page view
-    trackEvent('resume_page_view', {
+    trackCustomEvent(trackEvent, 'resume_page_view', {
       component: 'Resume'
     });
-  }, []);
+  }, [trackEvent]);
 
   useEffect(() => {
     // Redirect to PDF after a short delay to allow tracking

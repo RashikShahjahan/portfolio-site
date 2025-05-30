@@ -1,10 +1,13 @@
 import React from 'react';
+import { useAnalytics } from '../components/AnalyticsWrapper';
 
 /**
  * Determine user device type
  * @returns 'desktop', 'mobile', or 'tablet'
  */
 export const getUserDeviceType = (): string => {
+  if (typeof navigator === 'undefined') return 'unknown';
+  
   const userAgent = navigator.userAgent;
   if (/iPad|Android(?!.*Mobile)|Tablet/i.test(userAgent)) {
     return 'tablet';
@@ -18,8 +21,8 @@ export const getUserDeviceType = (): string => {
  * Get common analytics metadata
  */
 export const getAnalyticsMetadata = () => ({
-  path: window.location.pathname,
-  referrer: document.referrer || '',
+  path: typeof window !== 'undefined' ? window.location.pathname : '',
+  referrer: typeof document !== 'undefined' ? document.referrer || '' : '',
   user_device: getUserDeviceType(),
   timestamp: new Date().toISOString()
 });
@@ -29,39 +32,49 @@ export const getAnalyticsMetadata = () => ({
  * @param pageName - Name of the page to track
  */
 export const usePageViewTracking = (pageName: string) => {
+  const { trackEvent } = useAnalytics();
+  
   React.useEffect(() => {
-    // Access the global trackEvent function set by AnalyticsWrapper
-    const trackEvent = (window as any).ANALYTICS_PROVIDER_TRACK_EVENT;
-    if (trackEvent) {
-      trackEvent(`page_view_${pageName}`, getAnalyticsMetadata());
-    }
-  }, [pageName]);
+    trackEvent(`page_view_${pageName}`, getAnalyticsMetadata());
+  }, [pageName, trackEvent]);
 };
 
 /**
- * Track clicks on elements
+ * Custom hook to get the track event function
+ * @returns trackEvent function from analytics context
+ */
+export const useTrackEvent = () => {
+  const { trackEvent } = useAnalytics();
+  return trackEvent;
+};
+
+/**
+ * Utility function to track clicks - use with trackEvent from useTrackEvent hook
+ * @param trackEvent - The trackEvent function from useTrackEvent hook
  * @param elementName - Name of the element for tracking
  */
-export const trackClick = (elementName: string) => {
-  const trackEvent = (window as any).ANALYTICS_PROVIDER_TRACK_EVENT;
-  if (trackEvent) {
-    trackEvent(`click_${elementName}`, getAnalyticsMetadata());
-  }
+export const trackClick = (
+  trackEvent: (eventType: string, properties?: Record<string, unknown>) => void,
+  elementName: string
+) => {
+  trackEvent(`click_${elementName}`, getAnalyticsMetadata());
 };
 
 /**
- * Track custom events
+ * Utility function to track custom events - use with trackEvent from useTrackEvent hook
+ * @param trackEvent - The trackEvent function from useTrackEvent hook
  * @param eventName - Name of the event
  * @param metadata - Additional metadata
  */
-export const trackEvent = (eventName: string, metadata?: Record<string, unknown>) => {
-  const trackEventFn = (window as any).ANALYTICS_PROVIDER_TRACK_EVENT;
-  if (trackEventFn) {
-    trackEventFn(eventName, {
-      ...getAnalyticsMetadata(),
-      ...metadata
-    });
-  }
+export const trackCustomEvent = (
+  trackEvent: (eventType: string, properties?: Record<string, unknown>) => void,
+  eventName: string,
+  metadata?: Record<string, unknown>
+) => {
+  trackEvent(eventName, {
+    ...getAnalyticsMetadata(),
+    ...metadata
+  });
 };
 
 /**
@@ -73,17 +86,19 @@ export const useClickTracking = (
   ref: React.RefObject<HTMLElement>,
   elementName: string
 ) => {
+  const { trackEvent } = useAnalytics();
+  
   React.useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
     const handleClick = () => {
-      trackClick(elementName);
+      trackEvent(`click_${elementName}`, getAnalyticsMetadata());
     };
 
     element.addEventListener('click', handleClick);
     return () => {
       element.removeEventListener('click', handleClick);
     };
-  }, [ref, elementName]);
+  }, [ref, elementName, trackEvent]);
 }; 
